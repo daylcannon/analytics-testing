@@ -16,19 +16,17 @@
     <meta name="description" content="A simple website hosting an embedded iframe form.">
     <meta name="author" content="dayl cannon">
     <title>Dayl's Cafe Cafeteria</title>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light background */
-            color: #333; /* Dark text */
-            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
         }
         header {
-            background-color: #357a38; /* Improved contrast green */
-            color: white; /* White text */
+            background-color: #4CAF50;
+            color: white;
             text-align: center;
             padding: 20px 0;
         }
@@ -37,7 +35,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 70vh;
+            height: 70vh;
             padding: 20px;
         }
         iframe {
@@ -47,8 +45,8 @@
             height: 400px;
         }
         footer {
-            background-color: #357a38; /* Improved contrast green */
-            color: white; /* White text */
+            background-color: #4CAF50;
+            color: white;
             text-align: center;
             padding: 10px 0;
         }
@@ -58,49 +56,62 @@
                 width: 95%;
             }
         }
-        a {
-            color: #004494; /* Darker blue for links */
-            text-decoration: none;
-        }
-        a:focus, a:hover {
-            text-decoration: underline;
-        }
     </style>
+    <script>
+        // Listening for messages from the iframe
+        window.addEventListener('message', function(event) {
+            // Ensure the message comes from the expected origin
+            if (event.origin !== "https://app.geckoform.com") return;
+
+            // Check if the event data contains the expected structure
+            if (event.data && event.data.event === "form_start") {
+                // Push the event data into GTM's existing dataLayer
+                dataLayer.push({
+                    event: event.data.event,
+                    eventModel: {
+                        form_id: event.data.eventModel.form_id,
+                        form_name: event.data.eventModel.form_name,
+                        form_destination: event.data.eventModel.form_destination,
+                        form_length: event.data.eventModel.form_length,
+                        first_field_id: event.data.eventModel.first_field_id,
+                        first_field_name: event.data.eventModel.first_field_name,
+                        first_field_type: event.data.eventModel.first_field_type,
+                        first_field_position: event.data.eventModel.first_field_position
+                    },
+                    gtm: {
+                        uniqueEventId: event.data.gtm.uniqueEventId,
+                        priorityId: event.data.gtm.priorityId
+                    }
+                });
+
+                // Optional: Log the captured event for debugging
+                console.log("Form event captured:", event.data);
+            }
+        });
+    </script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBBC696T"
-        height="0" width="0" style="display:none;visibility:hidden" aria-hidden="true"></iframe>
+        height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <header role="banner">
+    <header>
         <h1>Dayl's Cafe Cafeteria</h1>
         <p>Below is the embedded Gecko form.</p>
     </header>
 
-    <main role="main">
-        <iframe 
-            src="https://app.geckoform.com/public/#/iframe/21FO00y2snbkm3005vt3uy7gcz" 
-            title="Gecko Form: Feedback Survey" 
-            frameborder="0" 
-            aria-describedby="iframeDescription"
-            role="document">
+    <main>
+        <iframe src="https://app.geckoform.com/public/#/iframe/21FO00y2snbkm3005vt3uy7gcz" 
+            width="100%" height="300" frameborder="0" 
+            seamless title="GeckoForm Form Embed">
         </iframe>
-        <p id="iframeDescription">
-            This form allows users to provide feedback on their experiences at Dayl's Cafe.
-        </p>
     </main>
 
-    <footer role="contentinfo">
+    <footer>
         <p>&copy; 2024 Dayl's Cafe Cafeteria. All rights reserved.</p>
-        <nav aria-label="Footer navigation">
-            <ul style="list-style-type:none; padding:0;">
-                <li><a href="privacy.html">Privacy Policy</a></li>
-                <li><a href="terms.html">Terms of Service</a></li>
-            </ul>
-        </nav>
     </footer>
 </body>
 </html>
