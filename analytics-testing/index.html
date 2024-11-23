@@ -57,38 +57,6 @@
             }
         }
     </style>
-    <script>
-        // Listening for messages from the iframe
-        window.addEventListener('message', function(event) {
-            // Ensure the message comes from the expected origin
-            if (event.origin !== "https://app.geckoform.com") return;
-
-            // Check if the event data contains the expected structure
-            if (event.data && event.data.event === "form_start") {
-                // Push the event data into GTM's existing dataLayer
-                dataLayer.push({
-                    event: event.data.event,
-                    eventModel: {
-                        form_id: event.data.eventModel.form_id,
-                        form_name: event.data.eventModel.form_name,
-                        form_destination: event.data.eventModel.form_destination,
-                        form_length: event.data.eventModel.form_length,
-                        first_field_id: event.data.eventModel.first_field_id,
-                        first_field_name: event.data.eventModel.first_field_name,
-                        first_field_type: event.data.eventModel.first_field_type,
-                        first_field_position: event.data.eventModel.first_field_position
-                    },
-                    gtm: {
-                        uniqueEventId: event.data.gtm.uniqueEventId,
-                        priorityId: event.data.gtm.priorityId
-                    }
-                });
-
-                // Optional: Log the captured event for debugging
-                console.log("Form event captured:", event.data);
-            }
-        });
-    </script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
