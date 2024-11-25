@@ -12,9 +12,9 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A simple website hosting an embedded iframe form.">
+    <meta name="description" content="A simple website hosting an embedded form.">
     <meta name="author" content="Dayl Cannon">
-    <meta name="keywords" content="Dayl's Cafe, Gecko Form, SoundCloud, Cafe website, embedded form">
+    <meta name="keywords" content="Dayl's Cafe, Gecko Form, Cafe website, embedded form">
     <meta name="robots" content="index, follow">
     <title>Dayl's Cafe Cafeteria</title>
     <style>
@@ -36,27 +36,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 70vh;
+            height: auto;
             padding: 20px;
         }
-        iframe {
-            border: none;
+        .gecko-form-container {
             width: 100%;
             max-width: 800px;
-            height: 400px;
-            max-height: 90vh; /* Avoid overflow on smaller screens */
+            margin: 0 auto;
+            padding: 20px;
         }
         footer {
             background-color: #c1a4b9;
             color: white;
             text-align: center;
             padding: 10px 0;
-        }
-        @media (max-width: 768px) {
-            iframe {
-                height: 300px;
-                width: 95%;
-            }
         }
     </style>
 </head>
@@ -75,9 +68,14 @@
 
     <main>
         <!-- Gecko Form Embed -->
-        <iframe src="https://app.geckoform.com/public/#/iframe/21FO00y2snbkm3005vt3uy7gcz" 
-        width="100%" height="300" frameborder="0" 
-        seamless title="GeckoForm Form Embed" loading="lazy"></iframe>
+        <div class="gecko-form-container">
+            <script src="https://app.geckoform.com/gecko-embed/form.js?uuid=21FO00y2snbkm3005vt3uy7gcz" id="gecko-form-embed-script"></script>
+        </div>
+
+        <!-- Fallback for No-JavaScript -->
+        <noscript>
+            <p style="color: red; text-align: center;">The form requires JavaScript to be enabled in your browser.</p>
+        </noscript>
     </main>
 
     <footer>
